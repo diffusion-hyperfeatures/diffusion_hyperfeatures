@@ -1,0 +1,14 @@
+seed: 829304518
+weights_path: "weights/aggregation_network.pt"
+projection_dim: 384
+model_id: "runwayml/stable-diffusion-v1-5"
+diffusion_mode: "generation"
+output_resolution: 64
+batch_size: 2
+prompt: ""
+# From https://twitter.com/EMostaque/status/1596905782859436033
+negative_prompt: "poorly drawn, ugly, tiling, out of frame, mutation, mutated, extra limbs, extra legs, extra arms, disfigured, deformed, cross-eye, body out of frame, blurry, bad art, bad anatomy, blurred, text, watermark, grainy,  writing, calligraphy, sign, cut off"
+guidance_scale: 7.5
+# Subsample every 5 steps
+save_timestep: [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 49]
+num_timesteps: 50
