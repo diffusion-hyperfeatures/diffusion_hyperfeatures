@@ -1,0 +1,36 @@
+# ======== Customize Paths =======
+image_path: datasets/SPair-71k/JPEGImages
+wandb_run: sdv1-5_one-step
+wandb_project: dhf
+results_folder: experiments
+# ======== Data / Logging ========
+pck_threshold: 0.1
+train_path: annotations/spair_71k_train.json
+val_path: annotations/spair_71k_val-360.json
+flip_timesteps: False
+# ======= Ours (All Steps) =======
+# save_timestep: [49, 45, 40, 35, 30, 25, 20, 15, 10, 5, 0]
+# num_timesteps: 50
+# ======== Ours - One-Step =======
+save_timestep: [0]
+num_timesteps: 1
+# ======= Training Hparams =======
+weight_decay: 0
+max_epochs: 1
+max_steps_per_epoch: 5000
+val_every_n_steps: 1000
+plot_every_n_steps: -1
+lr: 1e-3
+# ======== Model Hparams =========
+projection_dim: 384
+# ============== SDv1-5 ==========
+model_id: runwayml/stable-diffusion-v1-5
+# ============== SDv2-1 ==========
+# model_id: stabilityai/stable-diffusion-2-1-base
+diffusion_mode: inversion
+output_resolution: 64
+load_resolution: 512
+batch_size: 2
+prompt: ""
+negative_prompt: ""
+guidance_scale: -1

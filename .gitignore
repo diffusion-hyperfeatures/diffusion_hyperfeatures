@@ -1,0 +1,8 @@
+datasets/
+experiments/
+weights/
+wandb/
+out/
+hyperfeatures/
+seeds/
+**__pycache__**

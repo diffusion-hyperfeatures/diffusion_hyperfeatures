@@ -16,6 +16,13 @@ from archs.correspondence_utils import process_image
 def load_models(config_path, device="cuda"):
     config = OmegaConf.load(config_path)
     config = OmegaConf.to_container(config, resolve=True)
+    weights = torch.load(config["weights_path"], map_location="cpu")
+    config.update(weights["config"])
+    if config.get("flip_timesteps", False):
+        config["save_timestep"] = config["save_timestep"][::-1]
+
+    # dims is the channel dim for each layer (12 dims for Layers 1-12)
+    # idxs is the (block, sub-block) index for each layer (12 idxs for Layers 1-12)
     diffusion_extractor = DiffusionExtractor(config, device)
     dims = collect_dims(diffusion_extractor.unet, idxs=diffusion_extractor.idxs)
     aggregation_network = AggregationNetwork(
@@ -25,7 +32,7 @@ def load_models(config_path, device="cuda"):
         save_timestep=config["save_timestep"],
         num_timesteps=config["num_timesteps"]
     )
-    aggregation_network.load_state_dict(torch.load(config["weights_path"], map_location="cpu")["aggregation_network"])
+    aggregation_network.load_state_dict(weights["aggregation_network"])
     return config, diffusion_extractor, aggregation_network
 
 def extract_hyperfeats(config, diffusion_extractor, aggregation_network, images_or_prompts, save_root, device="cuda", load_size=(512, 512)):

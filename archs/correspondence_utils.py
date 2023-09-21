@@ -18,6 +18,35 @@ def process_image(image_pil, res=None, range=(-1, 1)):
     image = image * (r_max - r_min) + r_min # range [r_min, r_max]
     return image[None, ...], image_pil
 
+def load_image_pair(ann, load_size, device, image_path="", output_size=None):
+    img1_pil = Image.open(f"{image_path}/{ann['source_path']}").convert("RGB")
+    img2_pil = Image.open(f"{image_path}/{ann['target_path']}").convert("RGB")
+    source_size = img1_pil.size
+    target_size = img2_pil.size
+    ann["source_size"] = source_size
+    ann["target_size"] = target_size
+
+    # swap from (x, y) to (y, x)
+    if "source_points" in ann:
+        source_points, target_points = ann["source_points"], ann["target_points"]
+        source_points = np.flip(source_points, 1)
+        target_points = np.flip(target_points, 1)
+        if output_size is not None:
+            source_points = rescale_points(source_points, source_size, output_size)
+            target_points = rescale_points(target_points, target_size, output_size)
+        else:
+            source_points = rescale_points(source_points, source_size, load_size)
+            target_points = rescale_points(target_points, target_size, load_size)
+    else:
+        source_points, target_points = None, None
+
+    img1, img1_pil = process_image(img1_pil, res=load_size)
+    img2, img2_pil = process_image(img2_pil, res=load_size)
+    img1, img2 = img1.to(device), img2.to(device)
+    imgs = torch.cat([img1, img2])
+    
+    return source_points, target_points, img1_pil, img2_pil, imgs
+
 """
 Helper functions for computing semantic correspondence via nearest neighbors.
 """
@@ -128,10 +157,14 @@ def points_to_patches(source_points, num_patches, load_size):
     source_patches = np.round(source_patches)
     return source_patches
 
-def compute_pck(predicted_points, target_points, load_size, pck_threshold=0.1):
-  distances = np.linalg.norm(predicted_points - target_points, axis=-1)
-  pck = distances <= pck_threshold * max(load_size)
-  return distances, pck.sum() / len(pck)
+def compute_pck(predicted_points, target_points, load_size, pck_threshold=0.1, target_bounding_box=None):
+    distances = np.linalg.norm(predicted_points - target_points, axis=-1)
+    if target_bounding_box is None:
+        pck = distances <= pck_threshold * max(load_size)
+    else:
+        left, top, right, bottom = target_bounding_box
+        pck = distances <= pck_threshold * max(right-left, bottom-top)
+    return distances, pck, pck.sum() / len(pck)
 
 """
 Helper functions adapted from https://github.com/ShirAmir/dino-vit-features.
