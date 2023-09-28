@@ -93,7 +93,7 @@ def validate(config, diffusion_extractor, aggregation_network, val_anns):
             img1_hyperfeats, img2_hyperfeats = get_hyperfeats(diffusion_extractor, aggregation_network, imgs)
             loss = compute_clip_loss(aggregation_network, img1_hyperfeats, img2_hyperfeats, source_points, target_points, output_size)
             wandb.log({"val/loss": loss.item()}, step=j)
-            # Loss NN correspondences
+            # Log NN correspondences
             _, predicted_points = find_nn_source_correspondences(img1_hyperfeats, img2_hyperfeats, source_points, output_size, load_size)
             predicted_points = predicted_points.detach().cpu().numpy()
             # Rescale to the original image dimensions
@@ -190,6 +190,7 @@ def main(args):
     optimizer = torch.optim.AdamW(parameter_groups, weight_decay=config["weight_decay"])
     val_anns = json.load(open(config["val_path"]))
     if config.get("train_path"):
+        assert config["batch_size"] == 2, "The loss computation compute_clip_loss assumes batch_size=2."
         train_anns = json.load(open(config["train_path"]))
         train(config, diffusion_extractor, aggregation_network, optimizer, train_anns, val_anns)
     else:
