@@ -17,6 +17,7 @@ conda activate dhf
 ## Pretrained Networks
 You can download the following pretrained aggregation networks by running `download_weights.sh`.
 - [Ours - SDv1-5](http://diffusion_hyperfeatures.berkeleyvision.org/weights/aggregation_network.pt)
+- [Ours - SDv1-5 (One-Step)](http://diffusion_hyperfeatures.berkeleyvision.org/weights/aggregation_network_one-step.pt)
 - [Ours - SDv2-1](http://diffusion_hyperfeatures.berkeleyvision.org/weights/aggregation_network_sdv2-1.pt)
 
 ## Extraction
