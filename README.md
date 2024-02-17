@@ -4,6 +4,7 @@ This repository contains the code accompanying the paper [Diffusion Hyperfeature
 <img src="assets/approach.png" alt="teaser">
 
 ## Releases
+- 🚀 2024/02/17 - Added [generic training code](train_generic.py) for how one might train Diffusion Hyperfeatures for things beyond semantic correspondence.
 - 🚀 2023/09/28 - Added [training code](train_hyperfeatures.py) for Diffusion Hyperfeatures.
 - 🚀 2023/07/07 - Added [extraction code](extract_hyperfeatures.py) and demos for [real](real_demo.ipynb) / [synthetic](synthetic_demo.ipynb) images for Diffusion Hyperfeatures.
 
