@@ -157,9 +157,12 @@ def init_models(
     model_id="runwayml/stable-diffusion-v1-5",
     freeze=True
   ):
+  # Set model weights to mirror since
+  # runwayml took down the weights for SDv1-5
+  if model_id == "runwayml/stable-diffusion-v1-5":
+    model_id = "stable-diffusion-v1-5/stable-diffusion-v1-5"
   pipe = StableDiffusionPipeline.from_pretrained(
     model_id,
-    revision="fp16",
     torch_dtype=torch.float16,
   )
   unet = pipe.unet

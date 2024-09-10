@@ -4,6 +4,7 @@ This repository contains the code accompanying the paper [Diffusion Hyperfeature
 <img src="assets/approach.png" alt="teaser">
 
 ## Releases
+- 🚀 2024/09/10 - Fixed any broken model weight paths.
 - 🚀 2024/02/17 - Added [generic training code](train_generic.py) for how one might train Diffusion Hyperfeatures for things beyond semantic correspondence.
 - 🚀 2023/09/28 - Added [training code](train_hyperfeatures.py) for Diffusion Hyperfeatures.
 - 🚀 2023/07/07 - Added [extraction code](extract_hyperfeatures.py) and demos for [real](real_demo.ipynb) / [synthetic](synthetic_demo.ipynb) images for Diffusion Hyperfeatures.
@@ -17,9 +18,9 @@ conda activate dhf
 
 ## Pretrained Networks
 You can download the following pretrained aggregation networks by running `download_weights.sh`.
-- [Ours - SDv1-5](http://diffusion_hyperfeatures.berkeleyvision.org/weights/aggregation_network.pt)
-- [Ours - SDv1-5 (One-Step)](http://diffusion_hyperfeatures.berkeleyvision.org/weights/aggregation_network_one-step.pt)
-- [Ours - SDv2-1](http://diffusion_hyperfeatures.berkeleyvision.org/weights/aggregation_network_sdv2-1.pt)
+- [Ours - SDv1-5](https://huggingface.co/g-luo/diffusion-hyperfeatures/resolve/main/weights/aggregation_network.pt?download=true)
+- [Ours - SDv1-5 (One-Step)](https://huggingface.co/g-luo/diffusion-hyperfeatures/resolve/main/weights/aggregation_network_one-step.pt?download=true)
+- [Ours - SDv2-1](https://huggingface.co/g-luo/diffusion-hyperfeatures/resolve/main/weights/aggregation_network_sdv2-1.pt?download=true)
 
 ## Extraction
 To extract and save Diffusion Hyperfeatures for your own set of real images, or a set of synthetic images with your own custom prompts, run `extract_hyperfeatures.py`.
